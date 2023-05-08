@@ -18,16 +18,23 @@ menu:
 	syscall
 	
 	li $v0, 5
-	la $a1, 1
-	la $a0, escolha
 	syscall
 	
-	beq $v0, 1, palindromo
-	beq $v0, 2, contagem_maiúscula_e_minúscula
-	beq $v0, 3, contagem_caractere_escolhido
+	beq $v0, 1, OPÇÃO1
+	beq $v0, 2, OPÇÃO2
+	beq $v0, 3, OPÇÃO3
 	beq $v0, 4, FIM
 	j menu
-
+	
+	OPÇÃO1:
+		jal palindromo
+		j menu
+	OPÇÃO2:
+		jal contagem_maiúscula_e_minúscula
+		j menu
+	OPÇÃO3:
+		jal contagem_caractere_escolhido
+		j menu
 palindromo:					#--------------- Opção 1 ---------------
 	
 	li $v0, 4
@@ -76,15 +83,13 @@ palindromo:					#--------------- Opção 1 ---------------
 		li $v0, 4
 		la $a0, falso
 		syscall
-		j menu
+		jr $ra
 		
 	é_palindromo:
 		li $v0, 4
 		la $a0, verdadeiro
 		syscall
-		j menu
-		
-	j menu
+		jr $ra
 
 contagem_maiúscula_e_minúscula:			#--------------- Opção 2 ---------------
 	
@@ -134,7 +139,7 @@ contagem_maiúscula_e_minúscula:			#--------------- Opção 2 ---------------
 		li $v0, 1
 		move $a0, $t1
 		syscall
-		j menu
+		jr $ra
 	
 contagem_caractere_escolhido:			#-------------- Opção 3 ---------------
 
@@ -176,6 +181,6 @@ contagem_caractere_escolhido:			#-------------- Opção 3 ---------------
 		li $v0, 1
 		move $a0, $t0
 		syscall
-		j menu
+		jr $ra
 	
 FIM:
